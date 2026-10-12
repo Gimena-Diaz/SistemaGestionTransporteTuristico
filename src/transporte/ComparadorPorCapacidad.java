@@ -1,14 +1,11 @@
 package transporte;
 
-/**
-* Código generado por la app UXFtoJava by Charly Cimino
-* @see https://github.com/CharlyCimino/uxf-to-java
-*/
-public class ComparadorPorCapacidad {
+import java.util.Comparator;
 
+public class ComparadorPorCapacidad implements Comparator<Vehiculo> {
+
+    @Override
     public int compare(Vehiculo v1, Vehiculo v2) {
-        // Método a resolver...
-        return 0;
+        return Integer.compare(v2.getCapacidadPasajeros(), v1.getCapacidadPasajeros());
     }
-
 }
