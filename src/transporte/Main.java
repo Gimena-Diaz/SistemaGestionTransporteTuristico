@@ -309,6 +309,10 @@ public class Main {
         }
         if (!cancelado) {
             marca = ingresarDato(sc, "Marca: ");
+            while (marca.isBlank()) {
+                System.out.println("Error: la marca no puede quedar vacia.");
+                marca = ingresarDato(sc, "Marca: ");
+            }
             cancelado = quiereVolver(marca);
         }
         if (!cancelado) {
