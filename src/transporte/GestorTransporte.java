@@ -1,42 +1,97 @@
 package transporte;
 
-import java.util.ArrayList;
+import java.util.*;
 
 public class GestorTransporte {
 
-    private ArrayList<Vehiculo> vehiculos;
-
+    private ArrayList<Vehiculo> listaVehiculos;
 
     public GestorTransporte() {
-        // Constructor a resolver...
+        listaVehiculos = new ArrayList<>();
     }
 
-    public void agregarVehiculo(Vehiculo v) {
-        // Método a resolver...
+    public void agregarVehiculo(Vehiculo nuevoVehiculo) throws PatenteDuplicadaException {
+        if (existePatente(nuevoVehiculo.getPatente())) {
+            throw new PatenteDuplicadaException("Ya existe un vehiculo con la patente " + nuevoVehiculo.getPatente() + ".");
+        }
+        listaVehiculos.add(nuevoVehiculo);
     }
 
     public void mostrarTodos() {
-        // Método a resolver...
+        mostrarLista(listaVehiculos);
     }
 
     public void realizarServicios() {
-        // Método a resolver...
+        if (listaVehiculos.size() == 0) {
+            System.out.println("No hay vehiculos cargados.");
+        } else {
+            for (Vehiculo vehiculoActual : listaVehiculos) {
+                vehiculoActual.realizarServicio();
+            }
+        }
     }
 
     public void buscarPorPatente(String patente) {
-        // Método a resolver...
+        boolean encontrado = false;
+        for (Vehiculo vehiculoActual : listaVehiculos) {
+            if (vehiculoActual.getPatente().equals(patente)) {
+                mostrarVehiculo(vehiculoActual);
+                encontrado = true;
+            }
+        }
+        if (!encontrado) {
+            System.out.println("No se encontro ningun vehiculo con la patente " + patente + ".");
+        }
     }
 
-    public void mostrarMayorCapacidad(int limite) {
-        // Método a resolver...
+    public void filtrarPorCapacidad(int limite) {
+        ArrayList<Vehiculo> filtrados = new ArrayList<>();
+        for (Vehiculo vehiculoActual : listaVehiculos) {
+            if (vehiculoActual.getCapacidadPasajeros() > limite) {
+                filtrados.add(vehiculoActual);
+            }
+        }
+        if (filtrados.size() == 0) {
+            System.out.println("No hay vehiculos con capacidad mayor a " + limite + ".");
+        } else {
+            mostrarLista(filtrados);
+        }
     }
 
     public void mostrarPorAnioDescendente() {
-        // Método a resolver...
+        Collections.sort(listaVehiculos);
+        mostrarLista(listaVehiculos);
     }
 
     public void mostrarPorCapacidadDescendente() {
-        // Método a resolver...
+        Collections.sort(listaVehiculos, new ComparadorPorCapacidad());
+        mostrarLista(listaVehiculos);
     }
 
+    public boolean existePatente(String patente) {
+        boolean existe = false;
+        for (Vehiculo vehiculoActual : listaVehiculos) {
+            if (vehiculoActual.getPatente().equals(patente)) {
+                existe = true;
+            }
+        }
+        return existe;
+    }
+
+    private void mostrarLista(ArrayList<Vehiculo> lista) {
+        if (lista.size() == 0) {
+            System.out.println("No hay vehiculos cargados.");
+        } else {
+            for (Vehiculo vehiculoActual : lista) {
+                mostrarVehiculo(vehiculoActual);
+            }
+        }
+    }
+
+    private void mostrarVehiculo(Vehiculo vehiculoAMostrar) {
+        System.out.println("Patente: " + vehiculoAMostrar.getPatente()
+                + " | Marca: " + vehiculoAMostrar.getMarca()
+                + " | Capacidad: " + vehiculoAMostrar.getCapacidadPasajeros()
+                + " | Anio: " + vehiculoAMostrar.getAnioFabricacion());
+    }
 }

@@ -12,12 +12,15 @@ public abstract class Vehiculo implements Comparable<Vehiculo> {
         if (patente == null || patente.isBlank()) {
             throw new IllegalArgumentException("La patente del vehiculo no puede estar vacia.");
         }
+                if (patente.length() < 6 || patente.length() > 7) {
+            throw new IllegalArgumentException("La patente debe tener entre 6 o 7 caracteres.");
+        }
         if (capacidadPasajeros <= 0) {
             throw new IllegalArgumentException("La capacidad de pasajeros debe ser mayor a cero.");
         }
         int anioActual = LocalDate.now().getYear();
         if (anioFabricacion < 1990 || anioFabricacion > anioActual) {
-            throw new IllegalArgumentException("El año debe estar entre 1990 y " + anioActual + ".");
+            throw new IllegalArgumentException("El anio debe estar entre 1990 y " + anioActual + ".");
         }
 
         this.patente = patente;
