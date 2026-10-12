@@ -2,10 +2,6 @@ package transporte;
 
 import java.util.ArrayList;
 
-/**
-* Código generado por la app UXFtoJava by Charly Cimino
-* @see https://github.com/CharlyCimino/uxf-to-java
-*/
 public class GestorTransporte {
 
     private ArrayList<Vehiculo> vehiculos;
