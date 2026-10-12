@@ -3,8 +3,21 @@ package transporte;
 import java.time.LocalDate;
 import java.util.Scanner;
 
+/**
+ * Clase principal: muestra el menu y pide los datos por consola.
+ * En cada pregunta se puede escribir X para volver al menu.
+ */
 public class Main {
 
+    /**
+     * Que hace: carga los datos de prueba y muestra el menu hasta que
+     *           el usuario elija salir.
+     *
+     * Parametros:
+     *   args: no se usa
+     *
+     * Retorna: nada.
+     */
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         GestorTransporte gestor = new GestorTransporte();
@@ -59,6 +72,13 @@ public class Main {
         sc.close();
     }
 
+    /**
+     * Que hace: muestra las opciones del menu.
+     *
+     * Parametros: ninguno.
+     *
+     * Retorna: nada.
+     */
     public static void mostrarMenu() {
         System.out.println();
         System.out.println("===== SISTEMA DE GESTION DE TRANSPORTE TURISTICO =====");
@@ -72,15 +92,41 @@ public class Main {
         System.out.println("8. Salir del sistema");
     }
 
+    /**
+     * Que hace: muestra un mensaje y lee lo que escribe el usuario.
+     *
+     * Parametros:
+     *   sc: el Scanner para leer
+     *   mensaje: el texto que se muestra
+     *
+     * Retorna: el texto ingresado (String).
+     */
     public static String ingresarDato(Scanner sc, String mensaje) {
         System.out.print("( |X| volver atras) " + mensaje);
         return sc.nextLine();
     }
 
+    /**
+     * Que hace: revisa si el usuario escribio X para volver.
+     *
+     * Parametros:
+     *   texto: lo que ingreso el usuario
+     *
+     * Retorna: true si escribio X (o x), false si no.
+     */
     public static boolean quiereVolver(String texto) {
         return texto.toUpperCase().equals("X");
     }
 
+    /**
+     * Que hace: pide un numero entero hasta que sea valido o escriba X.
+     *
+     * Parametros:
+     *   sc: el Scanner para leer
+     *   mensaje: el texto que se muestra
+     *
+     * Retorna: el numero como texto, o "X" si quiere volver.
+     */
     public static String pedirNumeroValido(Scanner sc, String mensaje) {
         String entrada = ingresarDato(sc, mensaje);
         boolean valido = false;
@@ -100,6 +146,15 @@ public class Main {
         return entrada;
     }
 
+    /**
+     * Que hace: pide un numero mayor a cero o X.
+     *
+     * Parametros:
+     *   sc: el Scanner para leer
+     *   mensaje: el texto que se muestra
+     *
+     * Retorna: el numero como texto, o "X" si quiere volver.
+     */
     public static String pedirNumeroPositivo(Scanner sc, String mensaje) {
         String entrada = pedirNumeroValido(sc, mensaje);
         while (!quiereVolver(entrada) && Integer.parseInt(entrada) <= 0) {
@@ -109,6 +164,17 @@ public class Main {
         return entrada;
     }
 
+    /**
+     * Que hace: pide un numero entre un minimo y un maximo, o X.
+     *
+     * Parametros:
+     *   sc: el Scanner para leer
+     *   mensaje: el texto que se muestra
+     *   minimo: el valor mas chico permitido
+     *   maximo: el valor mas grande permitido
+     *
+     * Retorna: el numero como texto, o "X" si quiere volver.
+     */
     public static String pedirNumeroEntre(Scanner sc, String mensaje, int minimo, int maximo) {
         String entrada = pedirNumeroValido(sc, mensaje);
         while (!quiereVolver(entrada)
@@ -119,6 +185,15 @@ public class Main {
         return entrada;
     }
 
+    /**
+     * Que hace: pide una respuesta S o N, o X.
+     *
+     * Parametros:
+     *   sc: el Scanner para leer
+     *   mensaje: la pregunta que se muestra
+     *
+     * Retorna: "S", "N" o "X".
+     */
     public static String condicionSoN(Scanner sc, String mensaje) {
         String respuesta = ingresarDato(sc, mensaje).toUpperCase();
         while (!respuesta.equals("S") && !respuesta.equals("N") && !quiereVolver(respuesta)) {
@@ -128,6 +203,16 @@ public class Main {
         return respuesta;
     }
 
+    /**
+     * Que hace: pide la patente hasta que sea valida: no vacia, de 6 o 7
+     *           caracteres, solo letras y numeros, y que no este repetida.
+     *
+     * Parametros:
+     *   sc: el Scanner para leer
+     *   gestor: para revisar si la patente ya existe
+     *
+     * Retorna: la patente en mayusculas, o "X" si quiere volver.
+     */
     public static String ingresarChapaPatenteValida(Scanner sc, GestorTransporte gestor) {
         String patente = "";
         boolean valida = false;
@@ -150,6 +235,15 @@ public class Main {
         return patente;
     }
 
+    /**
+     * Que hace: revisa caracter por caracter (codigo ASCII) que el texto
+     *           tenga solo letras mayusculas y numeros.
+     *
+     * Parametros:
+     *   texto: el texto a revisar
+     *
+     * Retorna: true si es valido, false si tiene otro simbolo.
+     */
     public static boolean soloLetrasYNumeros(String texto) {
         boolean valido = true;
         for (int i = 0; i < texto.length(); i++) {
@@ -163,6 +257,15 @@ public class Main {
         return valido;
     }
 
+    /**
+     * Que hace: pide el tipo de motor hasta que sea NAFTA, DIESEL,
+     *           ELECTRICO o X.
+     *
+     * Parametros:
+     *   sc: el Scanner para leer
+     *
+     * Retorna: el motor en mayusculas, o "X" si quiere volver.
+     */
     public static String leerMotor(Scanner sc) {
         String mensaje = "Tipo de motor (NAFTA / DIESEL / ELECTRICO): ";
         String motor = ingresarDato(sc, mensaje).toUpperCase();
@@ -174,6 +277,16 @@ public class Main {
         return motor;
     }
 
+    /**
+     * Que hace: pide los datos de un vehiculo, los confirma y lo agrega.
+     *           Si en alguna pregunta escribe X, cancela y vuelve al menu.
+     *
+     * Parametros:
+     *   sc: el Scanner para leer
+     *   gestor: donde se agrega el vehiculo
+     *
+     * Retorna: nada.
+     */
     public static void agregarVehiculo(Scanner sc, GestorTransporte gestor) {
         System.out.println("Tipo de vehiculo: 1. Colectivo turistico  2. Van ejecutiva  3. Lancha turistica");
 
@@ -258,6 +371,16 @@ public class Main {
         }
     }
 
+    /**
+     * Que hace: busca vehiculos por patente hasta que el usuario
+     *           responda N o escriba X.
+     *
+     * Parametros:
+     *   sc: el Scanner para leer
+     *   gestor: donde se busca
+     *
+     * Retorna: nada.
+     */
     public static void buscarVehiculo(Scanner sc, GestorTransporte gestor) {
         String buscarDeNuevo = "S";
         while (buscarDeNuevo.equals("S")) {
@@ -272,6 +395,14 @@ public class Main {
         }
     }
 
+    /**
+     * Que hace: carga 3 vehiculos de prueba al iniciar el programa.
+     *
+     * Parametros:
+     *   gestor: donde se cargan los vehiculos
+     *
+     * Retorna: nada.
+     */
     public static void cargarDatosDePrueba(GestorTransporte gestor) {
         try {
             gestor.agregarVehiculo(new ColectivoTuristico("AB456CD", "Scania", 50, 2022, 1));
