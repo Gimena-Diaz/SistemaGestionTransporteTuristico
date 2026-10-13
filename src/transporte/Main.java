@@ -12,11 +12,6 @@ public class Main {
     /**
      * Que hace: carga los datos de prueba y muestra el menu hasta que
      *           el usuario elija salir.
-     *
-     * Parametros:
-     *   args: no se usa
-     *
-     * Retorna: nada.
      */
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
@@ -92,8 +87,21 @@ public class Main {
         System.out.println("8. Salir del sistema");
     }
 
+        /**
+     * Que hace: muestra el mensaje con el aviso de que puede escribir X
+     *           para volver atras.
+     *
+     * Parametros:
+     *   mensaje: el texto que se muestra
+     *
+     * Retorna: nada.
+     */
+    public static void mostrarAvisoVolver(String mensaje) {
+        System.out.print("( |X| volver atras) " + mensaje);
+    }
+
     /**
-     * Que hace: muestra un mensaje y lee lo que escribe el usuario.
+     * Que hace: muestra el mensaje y lee lo que escribe el usuario.
      *
      * Parametros:
      *   sc: el Scanner para leer
@@ -101,8 +109,8 @@ public class Main {
      *
      * Retorna: el texto ingresado (String).
      */
-    public static String ingresarDato(Scanner sc, String mensaje) {
-        System.out.print("( |X| volver atras) " + mensaje);
+    public static String pedirDato(Scanner sc, String mensaje) {
+        mostrarAvisoVolver(mensaje);
         return sc.nextLine();
     }
 
@@ -119,7 +127,7 @@ public class Main {
     }
 
     /**
-     * Que hace: pide un numero entero hasta que sea valido o escriba X.
+     * Que hace: pide un numero entero hasta que sea valido o escriba X para volver.
      *
      * Parametros:
      *   sc: el Scanner para leer
@@ -128,7 +136,7 @@ public class Main {
      * Retorna: el numero como texto, o "X" si quiere volver.
      */
     public static String pedirNumeroValido(Scanner sc, String mensaje) {
-        String entrada = ingresarDato(sc, mensaje);
+        String entrada = pedirDato(sc, mensaje);
         boolean valido = false;
         while (!valido) {
             if (quiereVolver(entrada)) {
@@ -139,7 +147,7 @@ public class Main {
                     valido = true;
                 } catch (NumberFormatException e) {
                     System.out.println("Error: debe ingresar un numero entero. Intente nuevamente.");
-                    entrada = ingresarDato(sc, mensaje);
+                    entrada = pedirDato(sc, mensaje);
                 }
             }
         }
@@ -147,7 +155,7 @@ public class Main {
     }
 
     /**
-     * Que hace: pide un numero mayor a cero o X.
+     * Que hace: pide un numero mayor a cero o X para volver.
      *
      * Parametros:
      *   sc: el Scanner para leer
@@ -165,7 +173,7 @@ public class Main {
     }
 
     /**
-     * Que hace: pide un numero entre un minimo y un maximo, o X.
+     * Que hace: pide un numero entre un minimo y un maximo, o X si quiere volver.
      *
      * Parametros:
      *   sc: el Scanner para leer
@@ -186,7 +194,7 @@ public class Main {
     }
 
     /**
-     * Que hace: pide una respuesta S o N, o X.
+     * Que hace: pide una respuesta S o N, o X si quiere volvcer.
      *
      * Parametros:
      *   sc: el Scanner para leer
@@ -195,10 +203,10 @@ public class Main {
      * Retorna: "S", "N" o "X".
      */
     public static String condicionSoN(Scanner sc, String mensaje) {
-        String respuesta = ingresarDato(sc, mensaje).toUpperCase();
+        String respuesta = pedirDato(sc, mensaje).toUpperCase();
         while (!respuesta.equals("S") && !respuesta.equals("N") && !quiereVolver(respuesta)) {
             System.out.println("Error: debe responder S o N.");
-            respuesta = ingresarDato(sc, mensaje).toUpperCase();
+            respuesta = pedirDato(sc, mensaje).toUpperCase();
         }
         return respuesta;
     }
@@ -217,7 +225,7 @@ public class Main {
         String patente = "";
         boolean valida = false;
         while (!valida) {
-            patente = ingresarDato(sc, "Patente: ").toUpperCase();
+            patente = pedirDato(sc, "Patente: ").toUpperCase();
             if (quiereVolver(patente)) {
                 valida = true;
             } else if (patente.isBlank()) {
@@ -236,7 +244,7 @@ public class Main {
     }
 
     /**
-     * Que hace: revisa caracter por caracter (codigo ASCII) que el texto
+     * Que hace: revisa caracter por caracter codigo ASCII que el texto
      *           tenga solo letras mayusculas y numeros.
      *
      * Parametros:
@@ -268,11 +276,11 @@ public class Main {
      */
     public static String leerMotor(Scanner sc) {
         String mensaje = "Tipo de motor (NAFTA / DIESEL / ELECTRICO): ";
-        String motor = ingresarDato(sc, mensaje).toUpperCase();
+        String motor = pedirDato(sc, mensaje).toUpperCase();
         while (!motor.equals("NAFTA") && !motor.equals("DIESEL") && !motor.equals("ELECTRICO")
                 && !quiereVolver(motor)) {
             System.out.println("Error: el tipo de motor debe ser NAFTA, DIESEL o ELECTRICO.");
-            motor = ingresarDato(sc, mensaje).toUpperCase();
+            motor = pedirDato(sc, mensaje).toUpperCase();
         }
         return motor;
     }
@@ -287,84 +295,59 @@ public class Main {
      *
      * Retorna: nada.
      */
+        /**
+     * Que hace: pide los datos de un vehiculo, los confirma y lo agrega.
+     *           Si en alguna pregunta escribe X, cancela y vuelve al menu.
+     *
+     * Parametros:
+     *   sc: el Scanner para leer
+     *   gestor: donde se agrega el vehiculo
+     *
+     * Retorna: nada.
+     */
     public static void agregarVehiculo(Scanner sc, GestorTransporte gestor) {
-        System.out.println("Tipo de vehiculo: 1. Colectivo turistico  2. Van ejecutiva  3. Lancha turistica");
+        System.out.println("Tipo de vehiculo: |1. Colectivo turistico | |2. Van ejecutiva | |3. Lancha turistica | ");
 
-        int tipo = 0;
         String patente = "";
         String marca = "";
-        int capacidad = 0;
-        int anio = 0;
-        int pisos = 0;
-        boolean aire = false;
-        String motor = "";
+        String capacidadTexto = "";
+        String anioTexto = "";
+        String datoEspecifico = "";
 
         String tipoTexto = pedirNumeroEntre(sc, "Elija el tipo: ", 1, 3);
         boolean cancelado = quiereVolver(tipoTexto);
 
         if (!cancelado) {
-            tipo = Integer.parseInt(tipoTexto);
             patente = ingresarChapaPatenteValida(sc, gestor);
             cancelado = quiereVolver(patente);
         }
         if (!cancelado) {
-            marca = ingresarDato(sc, "Marca: ");
-            while (marca.isBlank()) {
-                System.out.println("Error: la marca no puede quedar vacia.");
-                marca = ingresarDato(sc, "Marca: ");
-            }
+            marca = ingresarMarca(sc);
             cancelado = quiereVolver(marca);
         }
         if (!cancelado) {
-            String capacidadTexto = pedirNumeroPositivo(sc, "Capacidad de pasajeros: ");
+            capacidadTexto = pedirNumeroPositivo(sc, "Capacidad de pasajeros: ");
             cancelado = quiereVolver(capacidadTexto);
-            if (!cancelado) {
-                capacidad = Integer.parseInt(capacidadTexto);
-            }
         }
         if (!cancelado) {
             int anioActual = LocalDate.now().getYear();
-            String anioTexto = pedirNumeroEntre(sc, "Anio de fabricacion: ", 1990, anioActual);
+            anioTexto = pedirNumeroEntre(sc, "Anio de fabricacion: ", 1990, anioActual);
             cancelado = quiereVolver(anioTexto);
-            if (!cancelado) {
-                anio = Integer.parseInt(anioTexto);
-            }
         }
         if (!cancelado) {
-            if (tipo == 1) {
-                String pisosTexto = pedirNumeroEntre(sc, "Cantidad de pisos (1 o 2): ", 1, 2);
-                cancelado = quiereVolver(pisosTexto);
-                if (!cancelado) {
-                    pisos = Integer.parseInt(pisosTexto);
-                }
-            } else if (tipo == 2) {
-                String respuesta = condicionSoN(sc, "Tiene aire acondicionado? (S/N): ");
-                cancelado = quiereVolver(respuesta);
-                aire = respuesta.equals("S");
-            } else {
-                motor = leerMotor(sc);
-                cancelado = quiereVolver(motor);
-            }
+            datoEspecifico = pedirDatoEspecifico(sc, Integer.parseInt(tipoTexto));
+            cancelado = quiereVolver(datoEspecifico);
         }
         if (!cancelado) {
-            System.out.println("Datos ingresados: | Patente: " + patente + " | Marca: " + marca
-                    + " | Capacidad: " + capacidad + " | Anio: " + anio);
-            String confirma = condicionSoN(sc, "Confirma el alta? (S/N): ");
-            cancelado = !confirma.equals("S");
+            cancelado = !confirmarAlta(sc, patente, marca, capacidadTexto, anioTexto);
         }
 
         if (cancelado) {
             System.out.println("Regresando al menu....");
         } else {
             try {
-                Vehiculo nuevo;
-                if (tipo == 1) {
-                    nuevo = new ColectivoTuristico(patente, marca, capacidad, anio, pisos);
-                } else if (tipo == 2) {
-                    nuevo = new VanEjecutiva(patente, marca, capacidad, anio, aire);
-                } else {
-                    nuevo = new LanchaTuristica(patente, marca, capacidad, anio, motor);
-                }
+                Vehiculo nuevo = crearVehiculo(Integer.parseInt(tipoTexto), patente, marca,
+                        Integer.parseInt(capacidadTexto), Integer.parseInt(anioTexto), datoEspecifico);
                 gestor.agregarVehiculo(nuevo);
                 System.out.println("Vehiculo agregado correctamente.");
             } catch (IllegalArgumentException e) {
@@ -376,19 +359,94 @@ public class Main {
     }
 
     /**
+     * Que hace: pide la marca hasta que no este vacia.
+     *
+     * Parametros:
+     *   sc: el Scanner para leer
+     *
+     * Retorna: la marca, o "X" si quiere volver.
+     */
+    public static String ingresarMarca(Scanner sc) {
+        String marca = pedirDato(sc, "Marca: ");
+        while (marca.isBlank()) {
+            System.out.println("Error: la marca no puede quedar vacia.");
+            marca = pedirDato(sc, "Marca: ");
+        }
+        return marca;
+    }
+
+    /**
+     * Que hace: pide el dato propio de cada tipo: pisos (colectivo),
+     *           aire acondicionado (van) o motor (lancha).
+     *
+     * Parametros:
+     *   sc: el Scanner para leer
+     *   tipo: 1 colectivo, 2 van, 3 lancha
+     *
+     * Retorna: el dato como texto ("1"/"2", "S"/"N" o el motor), o "X".
+     */
+    public static String pedirDatoEspecifico(Scanner sc, int tipo) {
+        String dato;
+        if (tipo == 1) {
+            dato = pedirNumeroEntre(sc, "Cantidad de pisos (1 o 2): ", 1, 2);
+        } else if (tipo == 2) {
+            dato = condicionSoN(sc, "Tiene aire acondicionado? (S/N): ");
+        } else {
+            dato = leerMotor(sc);
+        }
+        return dato;
+    }
+
+    /**
+     * Que hace: muestra los datos ingresados y pregunta si confirma el alta.
+     *
+     * Parametros:
+     *   sc: el Scanner para leer
+     *   patente, marca, capacidad, anio: los datos a mostrar
+     *
+     * Retorna: true si confirma (S), false si no (N o X).
+     */
+    public static boolean confirmarAlta(Scanner sc, String patente, String marca, String capacidad, String anio) {
+        System.out.println("Datos ingresados: | Patente: " + patente + " | Marca: " + marca
+                + " | Capacidad: " + capacidad + " | Anio: " + anio);
+        String confirma = condicionSoN(sc, "Confirma el alta? (S/N): ");
+        return confirma.equals("S");
+    }
+
+    /**
+     * Que hace: crea el vehiculo que corresponde segun el tipo.
+     *
+     * Parametros:
+     *   tipo: 1 colectivo, 2 van, 3 lancha
+     *   patente, marca, capacidad, anio: datos del vehiculo
+     *   datoEspecifico: pisos, "S"/"N" o el motor, segun el tipo
+     *
+     * Retorna: el vehiculo creado.
+     */
+    public static Vehiculo crearVehiculo(int tipo, String patente, String marca, int capacidad, int anio, String datoEspecifico) {
+        Vehiculo nuevo;
+        if (tipo == 1) {
+            nuevo = new ColectivoTuristico(patente, marca, capacidad, anio, Integer.parseInt(datoEspecifico));
+        } else if (tipo == 2) {
+            nuevo = new VanEjecutiva(patente, marca, capacidad, anio, datoEspecifico.equals("S"));
+        } else {
+            nuevo = new LanchaTuristica(patente, marca, capacidad, anio, datoEspecifico);
+        }
+        return nuevo;
+    }
+
+    /**
      * Que hace: busca vehiculos por patente hasta que el usuario
      *           responda N o escriba X.
      *
      * Parametros:
      *   sc: el Scanner para leer
      *   gestor: donde se busca
-     *
-     * Retorna: nada.
      */
     public static void buscarVehiculo(Scanner sc, GestorTransporte gestor) {
         String buscarDeNuevo = "S";
         while (buscarDeNuevo.equals("S")) {
-            String patente = ingresarDato(sc, "Ingrese la patente a buscar: ").toUpperCase();
+            String patente = pedirDato(sc, "Ingrese la patente a buscar: ").toUpperCase();
             if (quiereVolver(patente)) {
                 buscarDeNuevo = "N";
                 System.out.println("Regresando al menu....");
@@ -404,8 +462,6 @@ public class Main {
      *
      * Parametros:
      *   gestor: donde se cargan los vehiculos
-     *
-     * Retorna: nada.
      */
     public static void cargarDatosDePrueba(GestorTransporte gestor) {
         try {
