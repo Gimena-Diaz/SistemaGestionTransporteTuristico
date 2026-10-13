@@ -13,8 +13,6 @@ public class GestorTransporte {
      * Que hace: crea el gestor con la lista de vehiculos vacia.
      *
      * Parametros: ninguno.
-     *
-     * Retorna: nada (constructor).
      */
     public GestorTransporte() {
         listaVehiculos = new ArrayList<>();
@@ -37,10 +35,6 @@ public class GestorTransporte {
 
     /**
      * Que hace: muestra todos los vehiculos cargados.
-     *
-     * Parametros: ninguno.
-     *
-     * Retorna: nada.
      */
     public void mostrarTodos() {
         mostrarLista(listaVehiculos);
@@ -48,10 +42,6 @@ public class GestorTransporte {
 
     /**
      * Que hace: cada vehiculo realiza su servicio (polimorfismo).
-     *
-     * Parametros: ninguno.
-     *
-     * Retorna: nada.
      */
     public void realizarServicios() {
         if (listaVehiculos.size() == 0) {
@@ -68,8 +58,6 @@ public class GestorTransporte {
      *
      * Parametros:
      *   patente: la patente a buscar
-     *
-     * Retorna: nada.
      */
     public void buscarPorPatente(String patente) {
         boolean encontrado = false;
@@ -89,8 +77,6 @@ public class GestorTransporte {
      *
      * Parametros:
      *   limite: la capacidad minima a superar
-     *
-     * Retorna: nada.
      */
     public void filtrarPorCapacidad(int limite) {
         ArrayList<Vehiculo> filtrados = new ArrayList<>();
@@ -107,16 +93,15 @@ public class GestorTransporte {
     }
 
     /**
-     * Que hace: ordena los vehiculos por anio, del mas nuevo al mas viejo,
-     *           y los muestra.
-     *
-     * Parametros: ninguno.
-     *
-     * Retorna: nada.
+     * Que hace: copia la lista, la ordena por anio y la muestra
      */
     public void mostrarPorAnioDescendente() {
-        Collections.sort(listaVehiculos);
-        mostrarLista(listaVehiculos);
+        ArrayList<Vehiculo> copia = new ArrayList<>();
+        for (Vehiculo vehiculoActual : listaVehiculos) {
+            copia.add(vehiculoActual);
+        }
+        Collections.sort(copia);
+        mostrarLista(copia);
     }
 
     /**
@@ -128,8 +113,12 @@ public class GestorTransporte {
      * Retorna: nada.
      */
     public void mostrarPorCapacidadDescendente() {
-        Collections.sort(listaVehiculos, new ComparadorPorCapacidad());
-        mostrarLista(listaVehiculos);
+        ArrayList<Vehiculo> copia = new ArrayList<>();
+        for (Vehiculo vehiculoActual : listaVehiculos) {
+            copia.add(vehiculoActual);
+        }
+        Collections.sort(copia, new ComparadorPorCapacidad());
+        mostrarLista(copia);
     }
 
     /**
