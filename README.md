@@ -45,13 +45,14 @@ El programa no deja cargar:
 - años menores a 1990 o mayores al actual
 - una cantidad de pisos distinta de 1 o 2
 - un motor que no sea NAFTA, DIESEL o ELECTRICO
+- patentes con símbolos (solo se aceptan letras y numeros)
+- marcas vacias
 
 Si un dato está mal, muestra el error y lo vuelve a pedir.
 
 ## Diagrama de clases
 
-[Diagrama UML]
-(SistemaGestionTransporteTuristico_UML_FINAL.png)
+![Diagrama UML](SistemaGestionTransporteTuristico_UML_FINAL.png)
 
 ## Cómo ejecutarlo
 
