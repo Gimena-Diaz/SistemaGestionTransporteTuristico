@@ -1,6 +1,6 @@
 # Sistema de Gestión de Transporte Turístico
 
-Trabajo práctico / EXAMEN Programación II 
+Programación II 
 UTN FRA - Tecnicatura Universitaria en Programación.
 
 # De qué se trata?
