@@ -43,12 +43,7 @@ public class Main {
                     buscarVehiculo(sc, gestor);
                     break;
                 case 5:
-                    String limiteTexto = pedirNumeroValido(sc, "Mostrar vehiculos con capacidad mayor a: ");
-                    if (quiereVolver(limiteTexto)) {
-                        System.out.println("Regresando al menu....");
-                    } else {
-                        gestor.filtrarPorCapacidad(Integer.parseInt(limiteTexto));
-                    }
+                    filtrarPorCapacidad(sc, gestor);
                     break;
                 case 6:
                     gestor.mostrarPorAnioDescendente();
@@ -284,17 +279,6 @@ public class Main {
         }
         return motor;
     }
-
-    /**
-     * Que hace: pide los datos de un vehiculo, los confirma y lo agrega.
-     *           Si en alguna pregunta escribe X, cancela y vuelve al menu.
-     *
-     * Parametros:
-     *   sc: el Scanner para leer
-     *   gestor: donde se agrega el vehiculo
-     *
-     * Retorna: nada.
-     */
         /**
      * Que hace: pide los datos de un vehiculo, los confirma y lo agrega.
      *           Si en alguna pregunta escribe X, cancela y vuelve al menu.
@@ -437,7 +421,7 @@ public class Main {
 
     /**
      * Que hace: busca vehiculos por patente hasta que el usuario
-     *           responda N o escriba X.
+     *           responda N o escriba X si quiere volver.
      *
      * Parametros:
      *   sc: el Scanner para leer
@@ -457,6 +441,25 @@ public class Main {
         }
     }
 
+    
+        /**
+     * Que hace: pide un limite y muestra los vehiculos con capacidad mayor,
+     *           o vuelve al menu si escribe X.
+     *
+     * Parametros:
+     *   sc: el Scanner para leer
+     *   gestor: donde se buscan los vehiculos
+     *
+     * Retorna: nada.
+     */
+    public static void filtrarPorCapacidad(Scanner sc, GestorTransporte gestor) {
+        String limiteTexto = pedirNumeroValido(sc, "Mostrar vehiculos con capacidad mayor a: ");
+        if (quiereVolver(limiteTexto)) {
+            System.out.println("Regresando al menu....");
+        } else {
+            gestor.filtrarPorCapacidad(Integer.parseInt(limiteTexto));
+        }
+    }
     /**
      * Que hace: carga 3 vehiculos de prueba al iniciar el programa.
      *
